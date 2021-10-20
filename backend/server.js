@@ -7,6 +7,7 @@ app.listen(3300, () =>{
 })
 
 app.get('/',(res,req) => {
+    console.log("Home Visited...!!!")
 
 })
 
