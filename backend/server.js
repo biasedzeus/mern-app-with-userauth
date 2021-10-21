@@ -1,9 +1,21 @@
 const express = require('express');
+const cors = require('cors')
+const mongoose = require('mongoose')
 
 const app = express();
 
-const cors = require('cors')
+
+//MiddleWares
 app.use(cors())
+app.use(express.json());
+// express.json() is middleware used to let know express 
+// that to pasre the req body in json.
+
+
+//Mongoose
+
+mongoose.connect('')
+
 
 
 app.get('/',(res,req) => {
