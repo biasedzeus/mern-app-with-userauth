@@ -64,7 +64,6 @@ const DashBoard = () => {
   return (
     <div>
       <h1>Your Quote : {quote || "No qoute Found"}</h1>
-      {console.log("KOTTE ==>", quote)}
       <form onSubmit={updateQuote}>
         <input
           type="text"
