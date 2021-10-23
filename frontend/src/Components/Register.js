@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const history = useHistory();
 
   async function handleRegister(event) {
     event.preventDefault();
@@ -21,6 +23,10 @@ function Register() {
     });
 
     const data = await response.json();
+
+    if(data.status === 'ok'){
+      history.push('/login')
+    }
     console.log("Responsii", response);
     console.log(data);
   }
