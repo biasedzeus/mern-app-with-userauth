@@ -19,6 +19,15 @@ function Login() {
     });
 
     const data = await response.json();
+
+    if(data.user){
+        localStorage.setItem('token',data.user)
+        alert("Login SuccessFul")
+        window.location.href="/dashboard";
+    }
+    else{
+        alert("Check Username or Password")
+    }
     console.log("Responsii", response);
     console.log(data);
   }
@@ -41,7 +50,7 @@ function Login() {
           onChange={(e) => setPass(e.target.value)}
         />
         <br />
-        <input type="submit" value="register" />
+        <input type="submit" value="Login" />
         <div>
           <p>Email : {email}</p>
           <p>Pass : {pass}</p>
