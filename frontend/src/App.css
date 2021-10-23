@@ -4,3 +4,9 @@
     align-items: center;
     flex-direction: column;
 }
+a{
+    margin: 20px;
+    font-size: 30px;
+    font-weight: 700;
+    
+}
