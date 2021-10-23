@@ -1,7 +1,13 @@
+//Imports
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const jwt = require('jsonwebtoken')
+
+
+//Models
 const User = require('./models/user.model')
+
 
 const app = express();
 
@@ -45,14 +51,67 @@ app.post("/api/login", async (req, res) => {
     password: req.body.pass,
   });
 
-  if(user){
-      return res.json({status:'ok',user: true})
-  }
-  else{
-      return res.json({status:'error',user: false})
+  if (user) {
+    const token = jwt.sign(
+      {
+        name: user.name,
+        email: user.email,
+      },
+      "secret1234"
+    );
 
+    return res.json({ status: "ok", user: token });
+  } else {
+    return res.json({ status: "error", user: false });
   }
 });
+
+
+app.get("/api/quote", async (req, res) => {
+
+  const  token =  req.headers['x-access-token'];
+  try{
+  const decoded = jwt.verify(token,'secret1234');
+  const email = decoded.email;
+  const user = await User.findOne({email:email})
+  return res.json({status:'ok',quote :user.quote})
+  }catch(error){
+    console.log(error)
+    return res.json({status:'error', error :'invalid token'})
+
+  }
+
+  
+});
+
+
+
+//To create a qoute
+
+app.post("/api/quote", async (req, res) => {
+  const token = req.headers["x-access-token"];
+  try {
+    const decoded = jwt.verify(token, "secret1234");
+    const email = decoded.email;
+    await User.updateOne(
+      { email: email }, 
+      { $set: { qoute: req.body.quote }}
+      );
+    return { status: "ok" };
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "error", error: "invalid token" });
+  }
+});
+
+
+
+
+
+
+
+
+
 
 app.listen(3300, () => {
   console.log("Listening At Port 3300");
